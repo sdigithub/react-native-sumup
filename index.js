@@ -5,6 +5,9 @@ var Sumup = {
   setupWithAPIKey(apiKey) {
     return SumupSDK.setupWithAPIKey(apiKey);
   },
+    loginWithToken (aToken) {
+    return SumupSDK.loginWithToken(aToken);
+  },
   presentLoginFromViewController() {
     return SumupSDK.presentLoginFromViewController();
   },
