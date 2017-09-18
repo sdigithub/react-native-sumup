@@ -40,18 +40,23 @@ RCT_EXPORT_METHOD(setupWithAPIKey:(NSString *)apiKey completionBlock:(RCTPromise
     }
 }
 
+RCT_EXPORT_METHOD(prepareForCheckout)
+{
+    [SumupSDK prepareForCheckout];
+}
+
 RCT_EXPORT_METHOD(loginWithToken:(NSString *)aToken completionBlock:(RCTPromiseResolveBlock)completionBlock error:(RCTPromiseRejectBlock)errorBlock)
 {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [SumupSDK loginWithToken:aToken
-                      completion:^(BOOL success, NSError *error) {
-                          if (error) {
-                              errorBlock(@"001", @"Error during login", error);
-                          } else {
-                              completionBlock(@{@"success": @(success)});
-                          }
-                      }];
-    });
+    //dispatch_sync(dispatch_get_main_queue(), ^{
+    [SumupSDK loginWithToken:aToken
+                  completion:^(BOOL success, NSError *error) {
+                      if (error) {
+                          errorBlock(@"001", @"Error during login", error);
+                      } else {
+                          completionBlock(@{@"success": @(success)});
+                      }
+                  }];
+    //    });
 }
 
 RCT_EXPORT_METHOD(presentLoginFromViewController:(RCTPromiseResolveBlock)completionBlock error:(RCTPromiseRejectBlock)errorBlock)
@@ -83,17 +88,22 @@ RCT_EXPORT_METHOD(checkoutWithRequest:(NSDictionary *)request completionBlock:(R
                                                                          title:title
                                                                   currencyCode:currencyCode
                                                                 paymentOptions:paymentOption];
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [SumupSDK checkoutWithRequest:checkoutRequest
-                   fromViewController:rootViewController
-                           completion:^(SMPCheckoutResult *result, NSError *error) {
-                               if (error) {
-                                   errorBlock(@"002", @"Error performing checkout", error);
-                               } else {
-                                   completionBlock(@{@"success": @([result success]), @"transactionCode": [result transactionCode]});
-                               }
-                           }];
-    });
+    //dispatch_sync(dispatch_get_main_queue(), ^{
+    // @try {
+    [SumupSDK checkoutWithRequest:checkoutRequest
+               fromViewController:rootViewController
+                       completion:^(SMPCheckoutResult *result, NSError *error) {
+                           if (error) {
+                               errorBlock(@"002", @"Error performing checkout", error);
+                           } else {
+                               completionBlock(@{@"success": @([result success]), @"transactionCode": [result transactionCode]});
+                           }
+                       }];
+    //}
+    //@catch (NSException *e) {
+    //
+    //}
+    //});
 }
 
 RCT_EXPORT_METHOD(isLoggedIn:(RCTPromiseResolveBlock)completionBlock error:(RCTPromiseRejectBlock)errorBlock)

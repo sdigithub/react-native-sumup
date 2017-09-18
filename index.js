@@ -8,6 +8,9 @@ var Sumup = {
     loginWithToken (aToken) {
     return SumupSDK.loginWithToken(aToken);
   },
+  prepareForCheckout() {
+    SumupSDK.prepareForCheckout();
+  },
   presentLoginFromViewController() {
     return SumupSDK.presentLoginFromViewController();
   },
